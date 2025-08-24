@@ -2,6 +2,13 @@
 
 A full-stack blog platform built with React (frontend) and Node.js/Express (backend) with MongoDB for data persistence.
 
+### Demo Video
+
+
+
+https://github.com/user-attachments/assets/f3b59557-c423-4b83-ad3d-052668eb4463
+
+
 This project is the solution to the following assignment requirements:
 
 ## Assignment Requirements
