@@ -1,0 +1,75 @@
+name: Backend CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build and Push Docker Image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log into Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build Docker Image
+        run: |
+          docker build -t suryathink/blogplatformassignment:latest .
+
+      - name: Validate Build
+        run: |
+          docker run --rm suryathink/blogplatformassignment:latest npm run build
+
+      - name: Push Docker Image to Docker Hub
+        run: |
+          docker push suryathink/blogplatformassignment:latest
+
+  deploy:
+    name: Deploy to AWS EC2
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Install SSH Client
+        run: sudo apt-get install -y openssh-client
+
+      - name: Decode and Save SSH Key
+        env:
+          EC2_KEY_BASE64: ${{ secrets.EC2_KEY_BASE64 }}
+        run: |
+          echo "$EC2_KEY_BASE64" | base64 --decode > backend-key.pem
+          chmod 400 backend-key.pem
+
+      - name: Deploy to EC2
+        env:
+          EC2_HOST: ${{ secrets.EC2_HOST }}
+          EC2_USER: ${{ secrets.EC2_USER }}
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: |
+          ssh -o StrictHostKeyChecking=no -i backend-key.pem ${EC2_USER}@${EC2_HOST} << 'EOF'
+            echo "🔄 Logging into Docker Hub..."
+            docker login -u "${DOCKER_USERNAME}" -p "${DOCKER_PASSWORD}"
+            
+            echo "🔄 Pulling the latest backend image..."
+            docker pull suryathink/blogplatformassignment:latest
+            
+            echo "🛑 Stopping old containers..."
+            docker stop blogplatformassignment || true
+            docker rm blogplatformassignment || true
+            
+            echo "🧹 Cleaning up old Docker images..."
+            docker system prune -af
+            
+            echo "🚀 Starting the new container with .env file..."
+            docker run --env-file /home/ubuntu/env/.env -d --name blogplatformassignment -p 5000:5000 suryathink/your-backend-app:latest
+          EOF
