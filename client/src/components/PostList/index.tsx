@@ -21,7 +21,6 @@ const PostList: React.FC = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  // Fetch posts from API
   useEffect(() => {
     fetchPosts();
     fetchTags();
@@ -116,7 +115,6 @@ const PostList: React.FC = () => {
         <p>{filteredPosts.length} posts found</p>
       </div>
 
-      {/* Search and Filter Section */}
       <div className="filters-section">
         <div className="search-box">
           <input
@@ -148,7 +146,6 @@ const PostList: React.FC = () => {
         )}
       </div>
 
-      {/* Posts Grid */}
       <div className="posts-grid">
         {filteredPosts.length === 0 ? (
           <div className="no-posts">
@@ -180,11 +177,7 @@ const PostList: React.FC = () => {
                   ))}
                 </div>
                 
-                {post.likes !== undefined && (
-                  <div className="likes-count">
-                    ❤️ {post.likes}
-                  </div>
-                )}
+             
               </div>
             </div>
           ))
