@@ -206,7 +206,7 @@ docker run -d \
   -e BASE_URL=http://localhost:5000 \
   -e MONGODB_URI=mongodb://host.docker.internal:27017/blog-platform \
   -e NODE_ENV=production \
-  <your-dockerhub-username>/blog-backend:latest
+  suryathink/blogplatformassignment:latest
 ```
 
 #### Run Frontend
@@ -215,7 +215,7 @@ docker run -d \
 docker run -d \
   --name blog-frontend \
   -p 3000:3000 \
-  <your-dockerhub-username>/blog-frontend:latest
+  suryathink/blogplatformassignment-frontend:latest
 ```
 
 ### Individual Container Deployment
@@ -252,6 +252,56 @@ docker run -p 5000:5000 \
    ```bash
    cd client && npm run dev
    ```
+
+## CI/CD Pipeline
+
+This project uses GitHub Actions for automated continuous integration and deployment. The workflows automatically build and push Docker images to Docker Hub whenever code is pushed to the main branch.
+
+### GitHub Workflows
+
+#### Backend CI/CD Pipeline (`.github/workflows/ci-cd.yml`)
+
+This workflow handles the backend deployment:
+
+1. **Triggers**: Runs automatically on every push to the `main` branch
+2. **Build Process**:
+   - Checks out the code from the repository
+   - Sets up Docker Buildx for advanced Docker features
+   - Authenticates with Docker Hub using stored secrets
+   - Builds a Docker image from the `./server` directory
+   - Tags the image as `suryathink/blogplatformassignment:latest`
+   - Validates the build by listing the created images
+   - Pushes the image to Docker Hub
+
+#### Frontend CI/CD Pipeline (`.github/workflows/frontend-ci-cd.yml`)
+
+This workflow handles the frontend deployment:
+
+1. **Triggers**: Runs automatically on every push to the `main` branch
+2. **Build Process**:
+   - Checks out the code from the repository
+   - Sets up Docker Buildx for multi-platform builds
+   - Authenticates with Docker Hub using repository secrets
+   - Builds a Docker image from the `./client` directory
+   - Tags the image as `suryathink/blogplatformassignment-frontend:latest`
+   - **Testing Phase**: Runs a container test to ensure the image works properly
+   - Pushes the image to Docker Hub
+   - Displays success message with image details and Docker Hub link
+
+#### Required Secrets
+
+To use these workflows, the following GitHub repository secrets must be configured:
+
+- `DOCKER_USERNAME`: Your Docker Hub username
+- `DOCKER_PASSWORD`: Your Docker Hub password or access token
+
+#### Benefits
+
+- **Automated Deployment**: No manual Docker image building required
+- **Consistency**: Every deployment uses the same build process
+- **Quality Assurance**: Frontend workflow includes basic container testing
+- **Immediate Availability**: Images are available on Docker Hub immediately after successful builds
+- **Version Control**: Each push creates a new `latest` tagged image
 
 ## Project Architecture
 
