@@ -5,7 +5,7 @@ export interface IPost extends Document {
   content: string;
   summary: string;
   tags: string[];
-  author: string;
+  author?: string;
   likes: number;
   likedBy: string[];
   createdAt: Date;
@@ -25,7 +25,7 @@ const PostSchema: Schema = new Schema(
     },
     summary: {
       type: String,
-      required: true,
+      // required: true,
       maxlength: 300,
     },
     tags: [{
@@ -35,7 +35,7 @@ const PostSchema: Schema = new Schema(
     }],
     author: {
       type: String,
-      required: true,
+      // required: true,
       trim: true,
     },
     likes: {

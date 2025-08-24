@@ -4,9 +4,7 @@ import Post, { IPost } from "../models/Post";
 export interface PostCreateData {
   title: string;
   content: string;
-  summary: string;
   tags: string[];
-  author: string;
 }
 
 export interface PostUpdateData {

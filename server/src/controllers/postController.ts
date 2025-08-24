@@ -6,21 +6,19 @@ import { PostService } from "../services/postService";
 export class PostController {
   public static async createPost(req: Request, res: Response) {
     try {
-      const { title, content, summary, tags, author } = req.body;
+      const { title, content,  tags,  } = req.body;
 
-      if (!title || !content || !summary || !author) {
+      if (!title || !content || !tags) {
         return res.status(httpStatus.BAD_REQUEST).send({
           statusCode: httpStatus.BAD_REQUEST,
-          message: "Missing required fields: title, content, summary, author",
+          message: "Missing required fields: title, content, tags",
         });
       }
 
       const response = await PostService.createPost({
         title,
         content,
-        summary,
         tags: tags || [],
-        author,
       });
 
       if (response && "isError" in response && response.isError) {

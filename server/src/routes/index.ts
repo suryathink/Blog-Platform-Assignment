@@ -6,7 +6,4 @@ export const routes = (app: Express) => {
   app.get("/health", (req, res) => {
     res.send({ status: "OK", timestamp: new Date().toISOString() });
   });
-
-
-
 };
