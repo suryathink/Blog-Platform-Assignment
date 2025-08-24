@@ -47,8 +47,8 @@ jobs:
         env:
           EC2_KEY_BASE64: ${{ secrets.EC2_KEY_BASE64 }}
         run: |
-          echo "$EC2_KEY_BASE64" | base64 --decode > blogplatformassignment-key.pem
-          chmod 400 blogplatformassignment-key.pem
+          echo "$EC2_KEY_BASE64" | base64 --decode > url-shortener-backend.pem
+          chmod 400 url-shortener-backend.pem
 
       - name: Deploy to EC2
         env:
@@ -57,7 +57,7 @@ jobs:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: |
-          ssh -o StrictHostKeyChecking=no -i blogplatformassignment-key.pem ${EC2_USER}@${EC2_HOST} << 'EOF'
+          ssh -o StrictHostKeyChecking=no -i url-shortener-backend.pem ${EC2_USER}@${EC2_HOST} << 'EOF'
             echo "🔄 Logging into Docker Hub..."
             docker login -u "${DOCKER_USERNAME}" -p "${DOCKER_PASSWORD}"
             
