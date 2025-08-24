@@ -24,7 +24,7 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          docker build -t suryathink/blogplatformassignment:latest .
+          docker build -t suryathink/your-backend-app:latest ./server
 
       - name: Validate Build
         run: |
