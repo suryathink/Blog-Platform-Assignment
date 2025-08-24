@@ -24,7 +24,7 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          docker build -t suryathink/blogplatformassignment-frontend:latest .
+          docker build -t suryathink/blogplatformassignment-frontend:latest ./client
 
       - name: Test Docker Image
         run: |
