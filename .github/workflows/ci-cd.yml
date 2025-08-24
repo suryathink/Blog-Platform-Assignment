@@ -72,5 +72,5 @@ jobs:
             docker system prune -af
             
             echo "🚀 Starting the new container with .env file..."
-            docker run --env-file /home/ubuntu/env/.env -d --name blogplatformassignment-container -p 5000:5000 suryathink/blogplatformassignment:latest
+            docker run --env-file /home/ubuntu/blog assignment/.env -d --name blogplatformassignment-container -p 5000:5000 suryathink/blogplatformassignment:latest
           EOF
