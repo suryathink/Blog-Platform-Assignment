@@ -61,6 +61,7 @@ const PostDetail: React.FC = () => {
     navigate('/');
   };
 
+  /*
   const handleLike = async () => {
     if (!post || isLiking) return;
     
@@ -82,6 +83,7 @@ const PostDetail: React.FC = () => {
       setIsLiking(false);
     }
   };
+  */
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -152,7 +154,7 @@ const PostDetail: React.FC = () => {
               )}
             </div>
             
-            <div className="post-actions">
+            {/* <div className="post-actions">
               <button 
                 onClick={handleLike}
                 className={`like-button ${isLiking ? 'liking' : ''}`}
@@ -160,7 +162,7 @@ const PostDetail: React.FC = () => {
               >
                 {isLiking ? '...' : '❤️'} {post.likes || 0}
               </button>
-            </div>
+            </div> */}
           </div>
 
           {post.tags && post.tags.length > 0 && (
