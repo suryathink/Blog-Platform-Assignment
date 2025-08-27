@@ -58,7 +58,6 @@ const PostList: React.FC = () => {
     }
   };
 
-  // Filter posts based on search term and selected tag
   const filteredPosts = posts?.filter(post => {
     const matchesSearch = post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          post.content.toLowerCase().includes(searchTerm.toLowerCase());

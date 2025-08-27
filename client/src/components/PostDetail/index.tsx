@@ -61,29 +61,6 @@ const PostDetail: React.FC = () => {
     navigate('/');
   };
 
-  /*
-  const handleLike = async () => {
-    if (!post || isLiking) return;
-    
-    try {
-      setIsLiking(true);
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/posts/${post.id}/like`, {
-        method: 'POST',
-      });
-      
-      if (response.ok) {
-        setPost(prev => prev ? { 
-          ...prev, 
-          likes: (prev.likes || 0) + 1 
-        } : null);
-      }
-    } catch (err) {
-      console.error('Error liking post:', err);
-    } finally {
-      setIsLiking(false);
-    }
-  };
-  */
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -98,7 +75,6 @@ const PostDetail: React.FC = () => {
   };
 
   const formatContent = (content: string) => {
-    // Simple line break formatting
     return content.split('\n').map((line, index) => (
       <React.Fragment key={index}>
         {line}
@@ -154,15 +130,6 @@ const PostDetail: React.FC = () => {
               )}
             </div>
             
-            {/* <div className="post-actions">
-              <button 
-                onClick={handleLike}
-                className={`like-button ${isLiking ? 'liking' : ''}`}
-                disabled={isLiking}
-              >
-                {isLiking ? '...' : '❤️'} {post.likes || 0}
-              </button>
-            </div> */}
           </div>
 
           {post.tags && post.tags.length > 0 && (
